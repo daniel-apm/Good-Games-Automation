@@ -16,9 +16,22 @@ import com.kms.katalon.core.webui.keyword.WebUiBuiltInKeywords as WebUI
 import com.kms.katalon.core.windows.keyword.WindowsBuiltinKeywords as Windows
 import internal.GlobalVariable as GlobalVariable
 import org.openqa.selenium.Keys as Keys
+import com.kms.katalon.core.appium.driver.AppiumDriverManager
+import io.appium.java_client.android.AndroidDriver
+import org.openqa.selenium.remote.DesiredCapabilities
+import com.kms.katalon.core.mobile.driver.MobileDriverType
 
-Mobile.startExistingApplication(GlobalVariable.app_id)
-Mobile.delay(1)
+String userName = System.getenv("BROWSERSTACK_USERNAME");
+String accessKey = System.getenv("BROWSERSTACK_ACCESS_KEY");
+String buildName = System.getenv("BROWSERSTACK_BUILD_NAME");
+String app = System.getenv("BROWSERSTACK_APP_ID");
+
+DesiredCapabilities caps = new DesiredCapabilities();
+caps.setCapability("app", app);
+caps.setCapability("device", "Samsung Galaxy S8");
+caps.setCapability("build", buildName);
+driver = new AndroidDriver(new URL("https://"+userName+":"+accessKey+"@hub-cloud.browserstack.com/wd/hub", caps));
+
 Mobile.waitForElementPresent(findTestObject('Object Repository/android.widget.ImageButton - Profile'), 60)
 Mobile.delay(1)
 Mobile.tap(findTestObject('Object Repository/android.widget.ImageButton - Profile'), 60)
