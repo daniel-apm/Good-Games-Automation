@@ -10,7 +10,8 @@ import com.kms.katalon.core.model.FailureHandling as FailureHandling
 import com.kms.katalon.core.testcase.TestCase as TestCase
 import com.kms.katalon.core.testdata.TestData as TestData
 import com.kms.katalon.core.testng.keyword.TestNGBuiltinKeywords as TestNGKW
-import com.kms.katalon.core.testobject.TestObject as TestObject
+import com.kms.katalon.core.testobject.TestObject
+import com.kms.katalon.core.util.KeywordUtil
 import com.kms.katalon.core.webservice.keyword.WSBuiltInKeywords as WS
 import com.kms.katalon.core.webui.keyword.WebUiBuiltInKeywords as WebUI
 import com.kms.katalon.core.windows.keyword.WindowsBuiltinKeywords as Windows
@@ -26,11 +27,17 @@ String accessKey = System.getenv("BROWSERSTACK_ACCESS_KEY");
 String buildName = System.getenv("BROWSERSTACK_BUILD_NAME");
 String app = System.getenv("BROWSERSTACK_APP_ID");
 
+KeywordUtil.logInfo(userName)
+KeywordUtil.logInfo(accessKey)
+KeywordUtil.logInfo(buildName)
+KeywordUtil.logInfo(app)
+
 DesiredCapabilities caps = new DesiredCapabilities();
 caps.setCapability("app", app);
 caps.setCapability("device", "Samsung Galaxy S8");
 caps.setCapability("build", buildName);
-driver = new AndroidDriver(new URL("https://"+userName+":"+accessKey+"@hub-cloud.browserstack.com/wd/hub", caps));
+
+AppiumDriverManager.createMobileDriver(MobileDriverType.ANDROID_DRIVER, caps, new URL("https://"+userName+":"+accessKey+"@hub-cloud.browserstack.com/wd/hub"));
 
 Mobile.waitForElementPresent(findTestObject('Object Repository/android.widget.ImageButton - Profile'), 60)
 Mobile.delay(1)
